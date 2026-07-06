@@ -9,13 +9,12 @@ import { createToken } from './auth.utlis';
 
 const loginUser = async (payload: TLoginUser) => {
   // checking if the user is exist
-  const user = await User.isUserExistsByCustomId(payload.id);
+  const user = await User.isUserExistsByEmail(payload.email);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
   // checking if the user is already deleted
-
   const isDeleted = user?.isDeleted;
 
   if (isDeleted) {
@@ -23,7 +22,6 @@ const loginUser = async (payload: TLoginUser) => {
   }
 
   // checking if the user is blocked
-
   const userStatus = user?.status;
 
   if (userStatus === 'blocked') {
@@ -31,14 +29,12 @@ const loginUser = async (payload: TLoginUser) => {
   }
 
   //checking if the password is correct
-
   if (!(await User.isPasswordMatched(payload?.password, user?.password)))
     throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
-  //create token and sent to the  client
-
+  //create token and sent to the client
   const jwtPayload = {
-    userId: user.id,
+    userId: user.email, // using email as identifier for now
     role: user.role,
   };
 
@@ -66,13 +62,12 @@ const changePassword = async (
   payload: { oldPassword: string; newPassword: string },
 ) => {
   // checking if the user is exist
-  const user = await User.isUserExistsByCustomId(userData.userId);
+  const user = await User.isUserExistsByEmail(userData.userId); // userId holds email based on token generation above
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
   }
   // checking if the user is already deleted
-
   const isDeleted = user?.isDeleted;
 
   if (isDeleted) {
@@ -80,7 +75,6 @@ const changePassword = async (
   }
 
   // checking if the user is blocked
-
   const userStatus = user?.status;
 
   if (userStatus === 'blocked') {
@@ -88,7 +82,6 @@ const changePassword = async (
   }
 
   //checking if the password is correct
-
   if (!(await User.isPasswordMatched(payload.oldPassword, user?.password)))
     throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
@@ -100,7 +93,7 @@ const changePassword = async (
 
   await User.findOneAndUpdate(
     {
-      id: userData.userId,
+      email: userData.userId,
       role: userData.role,
     },
     {
@@ -123,7 +116,7 @@ const refreshToken = async (token: string) => {
   const { userId, iat } = decoded;
 
   // checking if the user is exist
-  const user = await User.isUserExistsByCustomId(userId);
+  const user = await User.isUserExistsByEmail(userId);
 
   if (!user) {
     throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -150,7 +143,7 @@ const refreshToken = async (token: string) => {
   }
 
   const jwtPayload = {
-    userId: user.id,
+    userId: user.email,
     role: user.role,
   };
 

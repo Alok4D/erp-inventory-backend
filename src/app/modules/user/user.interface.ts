@@ -1,20 +1,21 @@
 /* eslint-disable no-unused-vars */
 import { Model } from 'mongoose';
-import { USER_ROLE } from './user.constant';
+import { USER_ROLE, USER_STATUS } from './user.constant';
 
 export interface TUser {
-  id: string;
-  password: string;
+  name: string;
+  email: string;
+  password?: string;
   needsPasswordChange: boolean;
   passwordChangedAt?: Date;
-  role: 'admin' | 'student' | 'faculty';
-  status: 'in-progress' | 'blocked';
+  role: keyof typeof USER_ROLE;
+  status: keyof typeof USER_STATUS;
   isDeleted: boolean;
 }
 
 export interface UserModel extends Model<TUser> {
   //instance methods for checking if the user exist
-  isUserExistsByCustomId(id: string): Promise<TUser>;
+  isUserExistsByEmail(email: string): Promise<TUser>;
   //instance methods for checking if passwords are matched
   isPasswordMatched(
     plainTextPassword: string,

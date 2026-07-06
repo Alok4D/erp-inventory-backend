@@ -3,9 +3,15 @@ import bcrypt from 'bcrypt';
 import { Schema, model } from 'mongoose';
 import config from '../../config';
 import { TUser, UserModel } from './user.interface';
+import { USER_ROLE, USER_STATUS } from './user.constant';
+
 const userSchema = new Schema<TUser, UserModel>(
   {
-    id: {
+    name: {
+      type: String,
+      required: true,
+    },
+    email: {
       type: String,
       required: true,
       unique: true,
@@ -24,12 +30,12 @@ const userSchema = new Schema<TUser, UserModel>(
     },
     role: {
       type: String,
-      enum: ['student', 'faculty', 'admin'],
+      enum: Object.values(USER_ROLE),
     },
     status: {
       type: String,
-      enum: ['in-progress', 'blocked'],
-      default: 'in-progress',
+      enum: Object.values(USER_STATUS),
+      default: USER_STATUS.active,
     },
     isDeleted: {
       type: Boolean,
@@ -46,10 +52,12 @@ userSchema.pre('save', async function (next) {
   const user = this; // doc
   // hashing password and save into DB
 
-  user.password = await bcrypt.hash(
-    user.password,
-    Number(config.bcrypt_salt_rounds),
-  );
+  if (user.isModified('password') && user.password) {
+      user.password = await bcrypt.hash(
+        user.password,
+        Number(config.bcrypt_salt_rounds),
+      );
+  }
 
   next();
 });
@@ -60,8 +68,8 @@ userSchema.post('save', function (doc, next) {
   next();
 });
 
-userSchema.statics.isUserExistsByCustomId = async function (id: string) {
-  return await User.findOne({ id }).select('+password');
+userSchema.statics.isUserExistsByEmail = async function (email: string) {
+  return await User.findOne({ email }).select('+password');
 };
 
 userSchema.statics.isPasswordMatched = async function (
