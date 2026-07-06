@@ -6,7 +6,7 @@ import sendResponse from '../../utlis/sendResponse';
 
 const loginUser = catchAsync(async (req, res) => {
   const result = await AuthServices.loginUser(req.body);
-  const { refreshToken, accessToken, needsPasswordChange } = result;
+  const { refreshToken, accessToken, needsPasswordChange, user } = result;
 
   res.cookie('refreshToken', refreshToken, {
     secure: config.NODE_ENV === 'production',
@@ -20,6 +20,7 @@ const loginUser = catchAsync(async (req, res) => {
     data: {
       accessToken,
       needsPasswordChange,
+      user,
     },
   });
 });
@@ -48,8 +49,23 @@ const refreshToken = catchAsync(async (req, res) => {
   });
 });
 
+const logoutUser = catchAsync(async (req, res) => {
+  res.clearCookie('refreshToken', {
+    secure: config.NODE_ENV === 'production',
+    httpOnly: true,
+  });
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'User logged out successfully!',
+    data: null,
+  });
+});
+
 export const AuthControllers = {
   loginUser,
   changePassword,
   refreshToken,
+  logoutUser,
 };

@@ -1,9 +1,9 @@
 import { z } from 'zod';
 
 const saleItemSchema = z.object({
-  product: z.string({ required_error: 'Product ID is required' }),
+  product: z.string({ message: 'Product ID is required' }),
   quantity: z
-    .number({ required_error: 'Quantity is required' })
+    .number({ message: 'Quantity is required' })
     .int()
     .min(1, 'Quantity must be at least 1'),
 });

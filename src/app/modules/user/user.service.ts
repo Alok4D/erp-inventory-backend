@@ -23,6 +23,15 @@ const createUserIntoDB = async (password: string, payload: TUser) => {
   return newUser;
 };
 
+const getMe = async (userId: string, role: string) => {
+  const result = await User.findOne({ email: userId, role });
+  if (!result) {
+    throw new AppError(httpStatus.NOT_FOUND, 'User not found!');
+  }
+  return result;
+};
+
 export const UserServices = {
   createUserIntoDB,
+  getMe,
 };

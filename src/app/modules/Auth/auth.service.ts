@@ -29,7 +29,7 @@ const loginUser = async (payload: TLoginUser) => {
   }
 
   //checking if the password is correct
-  if (!(await User.isPasswordMatched(payload?.password, user?.password)))
+  if (!(await User.isPasswordMatched(payload?.password, user?.password as string)))
     throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
   //create token and sent to the client
@@ -54,6 +54,11 @@ const loginUser = async (payload: TLoginUser) => {
     accessToken,
     refreshToken,
     needsPasswordChange: user?.needsPasswordChange,
+    user: {
+      name: user.name,
+      email: user.email,
+      role: user.role,
+    }
   };
 };
 
@@ -82,7 +87,7 @@ const changePassword = async (
   }
 
   //checking if the password is correct
-  if (!(await User.isPasswordMatched(payload.oldPassword, user?.password)))
+  if (!(await User.isPasswordMatched(payload.oldPassword, user?.password as string)))
     throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
   //hash new password
