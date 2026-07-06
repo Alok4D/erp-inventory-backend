@@ -9,12 +9,17 @@ import catchAsync from '../utlis/catchAsync';
 
 const auth = (...requiredRoles: TUserRole[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
-    const token = req.headers.authorization;
+    const authHeader = req.headers.authorization;
 
     // checking if the token is missing
-    if (!token) {
+    if (!authHeader) {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized!');
     }
+
+    // Extract token from "Bearer <token>"
+    const token = authHeader.startsWith('Bearer ')
+      ? authHeader.split(' ')[1]
+      : authHeader;
 
     // checking if the given token is valid
     const decoded = jwt.verify(
@@ -24,8 +29,8 @@ const auth = (...requiredRoles: TUserRole[]) => {
 
     const { role, userId, iat } = decoded;
 
-    // checking if the user is exist
-    const user = await User.isUserExistsByCustomId(userId);
+    // checking if the user is exist (userId now holds email)
+    const user = await User.isUserExistsByEmail(userId);
 
     if (!user) {
       throw new AppError(httpStatus.NOT_FOUND, 'This user is not found !');
@@ -58,7 +63,7 @@ const auth = (...requiredRoles: TUserRole[]) => {
     if (requiredRoles && !requiredRoles.includes(role)) {
       throw new AppError(
         httpStatus.UNAUTHORIZED,
-        'You are not authorized  hi!',
+        'You are not authorized!',
       );
     }
 
