@@ -20,7 +20,7 @@ app.use(
 app.use('/api/v1', router);
 
 const test = async (req: Request, res: Response) => {
-  const message = "🎓 University Management System";
+  const message = "<h1>🚀 Mini ERP System API is running successfully!</h1>";
   res.send(message);
 };
 
