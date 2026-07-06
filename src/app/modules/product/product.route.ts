@@ -24,4 +24,19 @@ router.get(
   ProductControllers.getAllProducts,
 );
 
+router.patch(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.manager),
+  upload.single('image'),
+  parseDataField,
+  validateRequest(ProductValidation.updateProductValidationSchema),
+  ProductControllers.updateProduct,
+);
+
+router.delete(
+  '/:id',
+  auth(USER_ROLE.admin, USER_ROLE.manager),
+  ProductControllers.deleteProduct,
+);
+
 export const ProductRoutes = router;
