@@ -1,49 +1,21 @@
 import httpStatus from 'http-status';
-import { UserServices } from './user.service';
 import catchAsync from '../../utlis/catchAsync';
 import sendResponse from '../../utlis/sendResponse';
+import { UserServices } from './user.service';
 
-const createStudent = catchAsync(async (req, res) => {
-  const { password, student: studentData } = req.body;
+const createUser = catchAsync(async (req, res) => {
+  const { password, user: userData } = req.body;
 
-  const result = await UserServices.createStudentIntoDB(password, studentData);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Student is created succesfully',
-    data: result,
-  });
-});
-
-const createFaculty = catchAsync(async (req, res) => {
-  const { password, faculty: facultyData } = req.body;
-
-  const result = await UserServices.createFacultyIntoDB(password, facultyData);
+  const result = await UserServices.createUserIntoDB(password, userData);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
-    message: 'Faculty is created succesfully',
-    data: result,
-  });
-});
-
-const createAdmin = catchAsync(async (req, res) => {
-  const { password, admin: adminData } = req.body;
-
-  const result = await UserServices.createAdminIntoDB(password, adminData);
-
-  sendResponse(res, {
-    statusCode: httpStatus.OK,
-    success: true,
-    message: 'Admin is created succesfully',
+    message: 'User is created successfully',
     data: result,
   });
 });
 
 export const UserControllers = {
-  createStudent,
-  createFaculty,
-  createAdmin,
+  createUser,
 };
