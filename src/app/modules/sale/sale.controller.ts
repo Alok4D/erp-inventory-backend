@@ -23,13 +23,14 @@ const createSale = catchAsync(async (req, res) => {
 });
 
 const getAllSales = catchAsync(async (req, res) => {
-  const result = await SaleServices.getAllSalesFromDB();
+  const result = await SaleServices.getAllSalesFromDB(req.query);
 
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
     message: 'Sales are retrieved successfully',
-    data: result,
+    meta: result.meta,
+    data: result.result,
   });
 });
 

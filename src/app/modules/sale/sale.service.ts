@@ -4,6 +4,7 @@ import AppError from '../../errors/AppError';
 import { Product } from '../product/product.model';
 import { Sale } from './sale.model';
 import { TSaleItem } from './sale.interface';
+import QueryBuilder from '../../builder/QueryBuilder';
 
 const createSaleIntoDB = async (
   soldBy: string,
@@ -78,11 +79,23 @@ const createSaleIntoDB = async (
   }
 };
 
-const getAllSalesFromDB = async () => {
-  const result = await Sale.find()
-    .populate('items.product')
-    .sort({ createdAt: -1 });
-  return result;
+const getAllSalesFromDB = async (query: Record<string, unknown>) => {
+  const saleQuery = new QueryBuilder(
+    Sale.find().populate('items.product'),
+    query,
+  )
+    .filter()
+    .sort()
+    .paginate()
+    .fields();
+
+  const result = await saleQuery.modelQuery;
+  const meta = await saleQuery.countTotal();
+
+  return {
+    meta,
+    result,
+  };
 };
 
 const deleteSaleFromDB = async (id: string) => {
