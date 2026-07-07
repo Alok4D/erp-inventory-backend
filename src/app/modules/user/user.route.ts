@@ -16,7 +16,7 @@ router.post(
 
 router.get(
   '/me',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.employee),
+  auth(),
   UserControllers.getMe,
 );
 

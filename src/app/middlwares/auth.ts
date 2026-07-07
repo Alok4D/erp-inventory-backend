@@ -3,11 +3,11 @@ import httpStatus from 'http-status';
 import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../config';
 import AppError from '../errors/AppError';
-import { TUserRole } from '../modules/user/user.interface';
 import { User } from '../modules/user/user.model';
+import { Role } from '../modules/role/role.model';
 import catchAsync from '../utlis/catchAsync';
 
-const auth = (...requiredRoles: TUserRole[]) => {
+const auth = (...requiredPermissions: string[]) => {
   return catchAsync(async (req: Request, res: Response, next: NextFunction) => {
     const authHeader = req.headers.authorization;
 
@@ -60,11 +60,25 @@ const auth = (...requiredRoles: TUserRole[]) => {
       throw new AppError(httpStatus.UNAUTHORIZED, 'You are not authorized !');
     }
 
-    if (requiredRoles && !requiredRoles.includes(role)) {
-      throw new AppError(
-        httpStatus.UNAUTHORIZED,
-        'You are not authorized!',
+    // Checking permissions against DB
+    const userRole = await Role.findOne({ name: role, isDeleted: false });
+    
+    if (!userRole) {
+      throw new AppError(httpStatus.UNAUTHORIZED, 'Role not found or deleted!');
+    }
+
+    if (requiredPermissions && requiredPermissions.length > 0) {
+      // Allow access if the user has AT LEAST ONE of the required permissions
+      const hasPermission = requiredPermissions.some(permission => 
+        userRole.permissions.includes(permission)
       );
+
+      if (!hasPermission) {
+        throw new AppError(
+          httpStatus.UNAUTHORIZED,
+          'You do not have the required permissions!',
+        );
+      }
     }
 
     req.user = decoded as JwtPayload;
@@ -73,3 +87,4 @@ const auth = (...requiredRoles: TUserRole[]) => {
 };
 
 export default auth;
+

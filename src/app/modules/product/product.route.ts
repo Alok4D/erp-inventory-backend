@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager), // Only Admin and Manager can add products
+  auth('create_product'),
   upload.single('image'), // Expect an 'image' file in the form data
   parseDataField, // Parse the 'data' JSON string in the form body
   validateRequest(ProductValidation.createProductValidationSchema),
@@ -20,13 +20,13 @@ router.post(
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.employee), // Anyone logged in can view products
+  auth('view_products'),
   ProductControllers.getAllProducts,
 );
 
 router.patch(
   '/:id',
-  auth(USER_ROLE.admin, USER_ROLE.manager),
+  auth('update_product'),
   upload.single('image'),
   parseDataField,
   validateRequest(ProductValidation.updateProductValidationSchema),
@@ -35,7 +35,7 @@ router.patch(
 
 router.delete(
   '/:id',
-  auth(USER_ROLE.admin, USER_ROLE.manager),
+  auth('delete_product'),
   ProductControllers.deleteProduct,
 );
 

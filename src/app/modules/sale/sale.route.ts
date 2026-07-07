@@ -9,20 +9,20 @@ const router = express.Router();
 
 router.post(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.employee), // Any logged-in user can make a sale
+  auth('create_sale'),
   validateRequest(SaleValidation.createSaleValidationSchema),
   SaleControllers.createSale,
 );
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.employee), // Allowed employee access for better UX
+  auth('view_sales'),
   SaleControllers.getAllSales,
 );
 
 router.delete(
   '/:id',
-  auth(USER_ROLE.admin), // Only Admin can delete sales history
+  auth('delete_sale'),
   SaleControllers.deleteSale,
 );
 

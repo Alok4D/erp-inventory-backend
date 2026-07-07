@@ -4,6 +4,7 @@ import jwt, { JwtPayload } from 'jsonwebtoken';
 import config from '../../config';
 import AppError from '../../errors/AppError';
 import { User } from '../user/user.model';
+import { Role } from '../role/role.model';
 import { TLoginUser } from './auth.interface';
 import { createToken } from './auth.utlis';
 
@@ -32,6 +33,13 @@ const loginUser = async (payload: TLoginUser) => {
   if (!(await User.isPasswordMatched(payload?.password, user?.password as string)))
     throw new AppError(httpStatus.FORBIDDEN, 'Password do not matched');
 
+  // Fetch user role permissions
+  let permissions: string[] = [];
+  const userRole = await Role.findOne({ name: user.role, isDeleted: false });
+  if (userRole) {
+    permissions = userRole.permissions;
+  }
+
   //create token and sent to the client
   const jwtPayload = {
     userId: user.email, // using email as identifier for now
@@ -58,6 +66,7 @@ const loginUser = async (payload: TLoginUser) => {
       name: user.name,
       email: user.email,
       role: user.role,
+      permissions,
     }
   };
 };

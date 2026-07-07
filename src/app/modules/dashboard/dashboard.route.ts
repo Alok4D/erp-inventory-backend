@@ -7,7 +7,7 @@ const router = express.Router();
 
 router.get(
   '/summary',
-  auth(USER_ROLE.admin, USER_ROLE.manager), // Only Admin and Manager can view dashboard summary
+  auth('view_dashboard'), // Check view_dashboard permission
   DashboardControllers.getDashboardSummary,
 );
 
