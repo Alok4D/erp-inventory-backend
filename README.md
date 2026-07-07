@@ -1,77 +1,80 @@
-# Mini ERP - Backend
+# Mini ERP - Backend API
 
-This is the backend API for the Mini ERP system built with **Node.js, Express, TypeScript, and Mongoose**. It follows a **Modular Feature-Based Architecture** ensuring scalability and maintainability.
+This is the backend for the **Mini ERP – Inventory & Sales Management System**. It provides a robust RESTful API built with Node.js, Express, TypeScript, and MongoDB.
 
-## 🚀 Features
+## Tech Stack
+- **Node.js & Express.js**: Fast, unopinionated, minimalist web framework.
+- **TypeScript**: Typed superset of JavaScript that compiles to plain JavaScript.
+- **MongoDB & Mongoose**: NoSQL database and object modeling for Node.js.
+- **Zod**: TypeScript-first schema declaration and validation library.
+- **JWT**: JSON Web Tokens for authentication and authorization.
 
-- **Modular Architecture**: Clean separation of concerns (User, Auth, Product, Sales).
-- **Authentication**: JWT-based authentication (Access & Refresh tokens).
-- **Authorization**: Role-based access control (Admin, Manager, Employee).
-- **Validation**: Zod schema validation for all requests.
-- **Error Handling**: Global error handler mapping custom errors to readable formats.
+## Features
+- **Authentication & Authorization**: Secure JWT-based login with role-based access control (Admin, Manager, Employee).
+- **Product Management**: CRUD operations with image upload support (Cloudinary/Multer).
+- **Sales Management**: Process sales, automatic stock reduction, total calculation.
+- **Dashboard API**: Real-time statistics for total products, total sales, and low stock alerts.
+- **Generic Query Builder**: Advanced querying with search, filter, sort, and pagination capabilities.
+- **Global Error Handling**: Standardized error responses across all APIs.
 
-## 🛠️ Technology Stack
-
-- **Runtime**: Node.js
-- **Framework**: Express.js
-- **Language**: TypeScript
-- **Database**: MongoDB (via Mongoose)
-- **Validation**: Zod
-- **Security**: bcrypt, jsonwebtoken, cors
-
-## ⚙️ Getting Started
-
-### Prerequisites
-- Node.js (v18+)
+## Prerequisites
+- Node.js (v18 or higher)
 - MongoDB (Local or Atlas)
 
-### Installation
+## Setup & Installation
 
-1. Clone the repository
+1. **Clone the repository and navigate to the backend folder**:
    ```bash
-   git clone <repo_url>
+   git clone <repository-url>
    cd erp-inventory-backend
    ```
 
-2. Install Dependencies
+2. **Install dependencies**:
    ```bash
    npm install
    ```
 
-3. Environment Variables
-   Create a `.env` file in the root directory based on `.env.example`:
+3. **Environment Configuration**:
+   Create a `.env` file in the root of the backend directory and add the following variables:
    ```env
-   NODE_ENV=development
    PORT=5000
-   DATABASE_URL=mongodb://localhost:27017/mini-erp
-   BCRYPT_SALT_ROUNDS=12
-   JWT_ACCESS_SECRET=your_access_secret
-   JWT_REFRESH_SECRET=your_refresh_secret
+   NODE_ENV=development
+   DATABASE_URL=your_mongodb_connection_string
+   JWT_ACCESS_SECRET=your_jwt_secret_key
    JWT_ACCESS_EXPIRES_IN=1d
-   JWT_REFRESH_EXPIRES_IN=365d
+   # Cloudinary credentials (if used)
+   CLOUDINARY_CLOUD_NAME=your_cloud_name
+   CLOUDINARY_API_KEY=your_api_key
+   CLOUDINARY_API_SECRET=your_api_secret
    ```
 
-4. Run the Development Server
-   ```bash
-   npm run dev
-   ```
+4. **Run the application**:
+   - For development:
+     ```bash
+     npm run dev
+     ```
+   - For production:
+     ```bash
+     npm run build
+     npm run start
+     ```
 
-The server should now be running on `http://localhost:5000`.
+## API Documentation
+You can find the complete Postman collection for this API in the project root directory (`Mini-ERP.postman_collection.json`). Import it into Postman to test the endpoints.
 
-## 📁 Project Structure
+### Key Endpoints
+- **Auth**: `POST /api/v1/auth/login`
+- **Dashboard**: `GET /api/v1/dashboard/summary`
+- **Products**: 
+  - `GET /api/v1/products` (Supports `?searchTerm=`, `?page=`, `?limit=`)
+  - `POST /api/v1/products`
+  - `PATCH /api/v1/products/:id`
+  - `DELETE /api/v1/products/:id`
+- **Sales**:
+  - `POST /api/v1/sales`
+  - `GET /api/v1/sales`
 
-```text
-src/
-├── app/
-│   ├── config/              # Environment configs
-│   ├── errors/              # Custom App Errors
-│   ├── interface/           # Global interfaces
-│   ├── middlewares/         # authGuard, validateRequest, globalErrorHandler
-│   ├── modules/
-│   │   ├── Auth/            # Login, Token APIs
-│   │   ├── user/            # User schema & creation
-│   ├── routes/              # Central index for all routes
-│   └── utils/               # catchAsync, sendResponse helpers
-├── app.ts                   # Express app instance
-└── server.ts                # Entry point
-```
+## Admin Login Credentials
+To test the full capabilities of the system, use the following demo admin credentials (or create one using the Postman collection):
+- **Email**: `admin@erp.com`
+- **Password**: `password123`
