@@ -12,8 +12,8 @@ const router = express.Router();
 router.post(
   '/',
   auth('create_product'),
-  upload.single('image'), // Expect an 'image' file in the form data
-  parseDataField, // Parse the 'data' JSON string in the form body
+  upload.single('image'), 
+  parseDataField, 
   validateRequest(ProductValidation.createProductValidationSchema),
   ProductControllers.createProduct,
 );
