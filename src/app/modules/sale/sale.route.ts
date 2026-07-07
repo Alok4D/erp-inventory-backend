@@ -16,7 +16,7 @@ router.post(
 
 router.get(
   '/',
-  auth(USER_ROLE.admin, USER_ROLE.manager), // Only Admin and Manager can view sales history
+  auth(USER_ROLE.admin, USER_ROLE.manager, USER_ROLE.employee), // Allowed employee access for better UX
   SaleControllers.getAllSales,
 );
 
