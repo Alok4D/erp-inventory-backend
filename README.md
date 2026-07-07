@@ -14,6 +14,8 @@ This is the backend for the **Mini ERP – Inventory & Sales Management System**
 - **Product Management**: CRUD operations with image upload support (Cloudinary/Multer).
 - **Sales Management**: Process sales, automatic stock reduction, total calculation.
 - **Dashboard API**: Real-time statistics for total products, total sales, and low stock alerts.
+- **Dynamic Role & Permission Management**: Database-driven role creation and granular permission mapping.
+- **Real-Time Updates via Socket.io**: Live WebSocket integration emitting events (e.g., `new_sale`) to keep connected clients instantly in sync.
 - **Generic Query Builder**: Advanced querying with search, filter, sort, and pagination capabilities.
 - **Global Error Handling**: Standardized error responses across all APIs.
 
