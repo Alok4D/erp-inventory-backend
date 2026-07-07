@@ -20,4 +20,10 @@ router.get(
   SaleControllers.getAllSales,
 );
 
+router.delete(
+  '/:id',
+  auth(USER_ROLE.admin), // Only Admin can delete sales history
+  SaleControllers.deleteSale,
+);
+
 export const SaleRoutes = router;

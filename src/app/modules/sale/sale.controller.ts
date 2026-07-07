@@ -27,7 +27,20 @@ const getAllSales = catchAsync(async (req, res) => {
   });
 });
 
+const deleteSale = catchAsync(async (req, res) => {
+  const { id } = req.params;
+  const result = await SaleServices.deleteSaleFromDB(id);
+
+  sendResponse(res, {
+    statusCode: httpStatus.OK,
+    success: true,
+    message: 'Sale is deleted successfully',
+    data: result,
+  });
+});
+
 export const SaleControllers = {
   createSale,
   getAllSales,
+  deleteSale,
 };

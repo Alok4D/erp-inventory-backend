@@ -85,7 +85,42 @@ const getAllSalesFromDB = async () => {
   return result;
 };
 
+const deleteSaleFromDB = async (id: string) => {
+  const session = await mongoose.startSession();
+
+  try {
+    session.startTransaction();
+
+    const sale = await Sale.findById(id).session(session);
+
+    if (!sale) {
+      throw new AppError(httpStatus.NOT_FOUND, 'Sale not found');
+    }
+
+    // Restore stock for all products in this sale
+    for (const item of sale.items) {
+      await Product.findByIdAndUpdate(
+        item.product,
+        { $inc: { stockQuantity: item.quantity } },
+        { session },
+      );
+    }
+
+    // Delete the sale
+    await Sale.findByIdAndDelete(id, { session });
+
+    await session.commitTransaction();
+    return null;
+  } catch (err) {
+    await session.abortTransaction();
+    throw err;
+  } finally {
+    session.endSession();
+  }
+};
+
 export const SaleServices = {
   createSaleIntoDB,
   getAllSalesFromDB,
+  deleteSaleFromDB,
 };
