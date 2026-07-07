@@ -31,6 +31,7 @@
     "mongoose": "^8.19.1",
     "multer": "^2.2.0",
     "multer-storage-cloudinary": "^4.0.0",
+    "socket.io": "^4.8.3",
     "zod": "^4.1.12"
   },
   "devDependencies": {
@@ -40,6 +41,7 @@
     "@types/jsonwebtoken": "^9.0.10",
     "@types/multer": "^2.2.0",
     "@types/node": "^24.7.2",
+    "@types/socket.io": "^3.0.1",
     "@typescript-eslint/eslint-plugin": "^8.46.0",
     "@typescript-eslint/parser": "^8.46.0",
     "eslint": "^9.37.0",

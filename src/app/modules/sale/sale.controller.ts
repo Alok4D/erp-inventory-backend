@@ -8,6 +8,12 @@ const createSale = catchAsync(async (req, res) => {
   const soldBy = req.user.userId;
   const result = await SaleServices.createSaleIntoDB(soldBy, req.body);
 
+  // Broadcast new sale via socket.io
+  const io = req.app.get('io');
+  if (io) {
+    io.emit('new_sale', { message: 'A new sale has been created!', data: result });
+  }
+
   sendResponse(res, {
     statusCode: httpStatus.OK,
     success: true,
