@@ -10,9 +10,12 @@ const app: Application = express();
 //parsers
 app.use(express.json());
 app.use(cookieParser());
+import config from './app/config';
+
 app.use(
   cors({
-    origin: ['http://localhost:5173'],
+    origin: [config.frontend_url as string, 'http://localhost:5173', 'https://erp-inventory-frontend-one.vercel.app'],
+    credentials: true,
   }),
 );
 
