@@ -14,7 +14,7 @@ import config from './app/config';
 
 app.use(
   cors({
-    origin: [config.frontend_url as string, 'http://localhost:5173', 'https://erp-inventory-frontend-one.vercel.app'],
+    origin: [config.frontend_url as string, 'http://localhost:5173', 'https://erp-inventory-frontend-one.vercel.app', 'https://smart-erp-dashboard.vercel.app'],
     credentials: true,
   }),
 );
@@ -23,7 +23,7 @@ app.use(
 app.use('/api/v1', router);
 
 const test = async (req: Request, res: Response) => {
-  const message = "<h1>🚀 Mini ERP System API is running successfully!</h1>";
+  const message = "<h1> Mini ERP System API is running successfully!</h1>";
   res.send(message);
 };
 
