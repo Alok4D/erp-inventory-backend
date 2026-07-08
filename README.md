@@ -119,7 +119,8 @@ A complete **Postman Collection** is included in the root directory: `Mini-ERP.p
 
 ### Key Endpoints Overview:
 
-**Auth Endpoints:**
+**Auth & User Endpoints:**
+- `POST /api/v1/users/create-user` (Create/Register User)
 - `POST /api/v1/auth/login` (Login)
 - `POST /api/v1/auth/refresh-token` (Refresh Session)
 - `POST /api/v1/auth/change-password` (Update Password)
