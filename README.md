@@ -54,7 +54,7 @@ This is the backend for the **Smart ERP – Inventory & Sales Management System*
 - **Bcrypt** (Password Hashing)
 - **Cloudinary** (Cloud Image Storage)
 - **Multer** (File Uploads)
-- **CORS & Cookie Parser** (Security & Auth)
+- **CORS** (Security & Auth)
 
 ---
 
