@@ -6,11 +6,11 @@ This is the backend for the **Mini ERP – Inventory & Sales Management System**
 - **Frontend**: https://smart-erp-dashboard.vercel.app
 
 
-## 🔑 Admin Login Credentials
-| Field | Value |
-|-------|-------|
-| Email | `admin@gmail.com` |
-| Password | `123456` |
+## 🔑 Demo Login Credentials
+
+| 👑 Admin Account | 💼 Manager Account | 👨‍💼 Employee Account |
+| :--- | :--- | :--- |
+| **Email:** `admin@gmail.com`<br>**Pass:** `123456` | **Email:** `manager@gmail.com`<br>**Pass:** `123456` | **Email:** `employee@gmail.com`<br>**Pass:** `123456` |
 
 ## ✨ Features Implemented
 
