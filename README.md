@@ -4,8 +4,7 @@ This is the backend for the **Mini ERP – Inventory & Sales Management System**
 
 ## 🔗 Live Links
 - **Frontend**: https://smart-erp-dashboard.vercel.app
-- **Frontend GitHub**: https://github.com/Alok4D/erp-inventory-frontend
-- **Backend GitHub**: https://github.com/Alok4D/erp-inventory-backend
+
 
 ## 🔑 Admin Login Credentials
 | Field | Value |
