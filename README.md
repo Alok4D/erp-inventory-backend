@@ -41,10 +41,14 @@ This is the backend for the **Mini ERP – Inventory & Sales Management System**
 - **Global Error Handling**: A centralized error handling middleware that parses Mongoose validation errors, Zod errors, and custom API errors into a standardized, readable JSON response.
 - **Schema Validation**: Uses `Zod` to strongly validate incoming request bodies (e.g., ensuring prices are positive numbers).
 
+### 7. Real-Time WebSockets
+- **Socket.io Integration**: Live WebSocket server that broadcasts events (e.g., `new_sale`) globally to instantly sync connected clients without HTTP polling.
+
 ## 🛠️ Tech Stack
 - **Node.js & Express.js**
 - **TypeScript**
 - **MongoDB & Mongoose**
+- **Socket.io** (WebSockets)
 - **Zod** (Validation)
 - **JSON Web Tokens (JWT)**
 - **Bcrypt**
