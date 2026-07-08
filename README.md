@@ -1,9 +1,10 @@
-# Mini ERP — Backend API
+# Smart ERP — Backend API
 
-This is the backend for the **Mini ERP – Inventory & Sales Management System**. It provides a robust RESTful API built with Node.js, Express, TypeScript, and MongoDB.
+This is the backend for the **Smart ERP – Inventory & Sales Management System**. It provides a robust RESTful API built with Node.js, Express, TypeScript, and MongoDB.
 
 ## 🔗 Live Links
 - **Frontend**: https://smart-erp-dashboard.vercel.app
+- **Backend**: https://erp-inventory-backend-yjfy.onrender.com
 
 
 ## 🔑 Demo Login Credentials
@@ -50,7 +51,10 @@ This is the backend for the **Mini ERP – Inventory & Sales Management System**
 - **Socket.io** (WebSockets)
 - **Zod** (Validation)
 - **JSON Web Tokens (JWT)**
-- **Bcrypt**
+- **Bcrypt** (Password Hashing)
+- **Cloudinary** (Cloud Image Storage)
+- **Multer** (File Uploads)
+- **CORS & Cookie Parser** (Security & Auth)
 
 ---
 
